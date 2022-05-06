@@ -57,68 +57,75 @@ func ParseXMLFromFile(path string, v *Wxml, removeLines int) error {
 
 //DEBUGGING FUNCTION
 func PrintStruct(v Wxml) {
-	fmt.Println(v.Ignoreable)
-	fmt.Println(v.Document.Body.SectPr.PageSize.Heigth)
-	fmt.Println(v.Document.Body.ParagraphID[0])
-	fmt.Println(v.Document.Body.Paragraph[0])
+	fmt.Println(v)
+	fmt.Println("Ignorable:", v.Ignoreable)
+	fmt.Println("Height:", v.Body.SectPr.PageSize.Heigth)
+	fmt.Println("ParagraphID:", v.Body.ParagraphID)
+	fmt.Println("Peragraph:", v.Body.Paragraph)
 }
 
 type Wxml struct {
-	Document   Document `xml:"w:document"`
-	Ignoreable string   `xml:"mc:Ignorable,attr"`
-}
-
-type Document struct {
-	Body Body `xml:"w:body"`
+	XMLName    xml.Name `xml:"document"`
+	Body       Body     `xml:"body"`
+	Ignoreable string   `xml:"Ignorable,attr"`
 }
 
 type Body struct {
-	Paragraph    []Paragraph `xml:"w:p"`
+	Paragraph    []Paragraph `xml:"p"`
 	ParagraphID  []string    `xml:"w14:paraID,attr"`
 	TextID       []string    `xml:"w14:textID,attr"`
-	RsidR        []string    `xml:"w:rsidR,attr"`
-	RsidRDefault []string    `xml:"w:rsidRDefault,attr"`
-	RsidRPr      []string    `xml:"w:rsidRPr,attr"`
+	RsidR        []string    `xml:"rsidR,attr"`
+	RsidRDefault []string    `xml:"rsidRDefault,attr"`
+	RsidRPr      []string    `xml:"rsidRPr,attr"`
 
-	SectPr SectPr `xml:"w:sectPr"`
+	SectPr SectPr `xml:"sectPr"`
 }
 
-//w:sectPr w:rsidR="00A63C32" w:rsidRPr="00A63C32"
-
 type SectPr struct {
-	PageSize PageSize `xml:"w:pgSz"`
-	PageMar  PageMar  `xml:"w:pgMar"`
-	Cols     Cols     `xml:"w:cols"`
-	DocGrid  DocGrid  `xml:"w:docGrid"`
+	PageSize PageSize `xml:"pgSz"`
+	PageMar  PageMar  `xml:"pgMar"`
+	Cols     Cols     `xml:"cols"`
+	DocGrid  DocGrid  `xml:"docGrid"`
 }
 
 type PageSize struct {
-	Width  int `xml:"w:w,attr"`
-	Heigth int `xml:"w:h,attr"`
+	Width  string `xml:"w,attr"`
+	Heigth string `xml:"h,attr"`
 }
 
 type PageMar struct {
-	Top    int `xml:"w:top,attr"`
-	Right  int `xml:"w:right,attr"`
-	Bottom int `xml:"w:bottom,attr"`
-	Left   int `xml:"w:left,attr"`
-	Header int `xml:"w:header,attr"`
-	Footer int `xml:"w:footer,attr"`
-	Gutter int `xml:"w:gutter,attr"`
+	Top    string `xml:"top,attr"`
+	Right  string `xml:"right,attr"`
+	Bottom string `xml:"bottom,attr"`
+	Left   string `xml:"left,attr"`
+	Header string `xml:"header,attr"`
+	Footer string `xml:"footer,attr"`
+	Gutter string `xml:"gutter,attr"`
 }
 
 type Cols struct {
-	Space int `xml:"w:space,attr"`
+	Space string `xml:"space,attr"`
 }
 
 type DocGrid struct {
-	LinePitch int `xml:"w:linePitch,attr"`
+	LinePitch string `xml:"linePitch,attr"`
 }
 
 type Paragraph struct {
+	R            R      `xml:"r"`
+	ParaID       string `xml:"paraId,attr"`
+	TextID       string `xml:"textId,attr"`
+	RsIDR        string `xml:"rsidR,attr"`
+	RsidRPr      string `xml:"rsidRPr,attr"`
+	RsIDRDefault string `xml:"rsidRDefault,attr""`
+	//w14:paraId="754FE2B2" w14:textId="14B8B3C3" w:rsidR="00A63C32" w:rsidRDefault="00A63C32"
 }
 
-//w:document = Wurzelelement
+type R struct {
+	Text string `xml:"t"`
+}
+
+//document = Wurzelelement
 //<eintrag>Eintrag</eintrag> = Element mit start und endeintrag
 //<eintrag /> = Element mit Leereintrag
 //
