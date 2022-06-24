@@ -60,8 +60,8 @@ func PrintStruct(v Wxml) {
 	fmt.Println(v)
 	fmt.Println("Ignorable:", v.Ignoreable)
 	fmt.Println("Height:", v.Body.SectPr.PageSize.Heigth)
-	fmt.Println("ParagraphID:", v.Body.ParagraphID)
-	fmt.Println("Peragraph:", v.Body.Paragraph)
+	fmt.Println("ParagraphID:", v.Body.Paragraph[0].ParaID)
+	fmt.Println("Paragraph:", v.Body.Paragraph)
 }
 
 type Wxml struct {
@@ -71,14 +71,8 @@ type Wxml struct {
 }
 
 type Body struct {
-	Paragraph    []Paragraph `xml:"p"`
-	ParagraphID  []string    `xml:"w14:paraID,attr"`
-	TextID       []string    `xml:"w14:textID,attr"`
-	RsidR        []string    `xml:"rsidR,attr"`
-	RsidRDefault []string    `xml:"rsidRDefault,attr"`
-	RsidRPr      []string    `xml:"rsidRPr,attr"`
-
-	SectPr SectPr `xml:"sectPr"`
+	Paragraph []Paragraph `xml:"p"`
+	SectPr    SectPr      `xml:"sectPr"`
 }
 
 type SectPr struct {
