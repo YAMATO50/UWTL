@@ -62,6 +62,7 @@ func PrintStruct(v Wxml) {
 	fmt.Println("Height:", v.Body.SectPr.PageSize.Heigth)
 	fmt.Println("ParagraphID:", v.Body.Paragraph[0].ParaID)
 	fmt.Println("Paragraph:", v.Body.Paragraph)
+	fmt.Println("Text:", v.Body.Paragraph[0].R.Text)
 }
 
 type Wxml struct {
@@ -106,17 +107,24 @@ type DocGrid struct {
 }
 
 type Paragraph struct {
-	R            R      `xml:"r"`
-	ParaID       string `xml:"paraId,attr"`
-	TextID       string `xml:"textId,attr"`
-	RsIDR        string `xml:"rsidR,attr"`
-	RsidRPr      string `xml:"rsidRPr,attr"`
-	RsIDRDefault string `xml:"rsidRDefault,attr""`
-	//w14:paraId="754FE2B2" w14:textId="14B8B3C3" w:rsidR="00A63C32" w:rsidRDefault="00A63C32"
+	R                   R      `xml:"r"`
+	ParaID              string `xml:"paraId,attr"`
+	TextID              string `xml:"textId,attr"`
+	RsIDR               string `xml:"rsidR,attr"`
+	RsidRPr             string `xml:"rsidRPr,attr"`
+	RsIDRDefault        string `xml:"rsidRDefault,attr""`
+	ParagraphProperties PPR    `xml:"pPr"`
 }
 
 type R struct {
 	Text string `xml:"t"`
+}
+
+type PPR struct {
+	RPR RPR `xml:"rPr"`
+}
+
+type RPR struct {
 }
 
 //document = Wurzelelement
