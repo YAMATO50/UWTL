@@ -63,6 +63,8 @@ func PrintStruct(v Wxml) {
 	fmt.Println("ParagraphID:", v.Body.Paragraph[0].ParaID)
 	fmt.Println("Paragraph:", v.Body.Paragraph)
 	fmt.Println("Text:", v.Body.Paragraph[0].R.Text)
+	fmt.Println("Properties:", v.Body.Paragraph[3].ParagraphProperties.RunProperties.Properties)
+	fmt.Println("NewPage:", v.Body.Paragraph[30].R.LastRenderedPageBreak.XMLName.Local)
 }
 
 type Wxml struct {
@@ -117,14 +119,23 @@ type Paragraph struct {
 }
 
 type R struct {
-	Text string `xml:"t"`
+	Text                  string `xml:"t"`
+	Space                 string `xml:"xml:space"`
+	RsidRPr               string `xml:"rsidRPr,attr"`
+	RunProperties         RPR    `xml:"rPr"`
+	LastRenderedPageBreak LRPB   `xml:"lastRenderedPageBreak"`
+}
+
+type LRPB struct {
+	XMLName xml.Name
 }
 
 type PPR struct {
-	RPR RPR `xml:"rPr"`
+	RunProperties RPR `xml:"rPr"`
 }
 
 type RPR struct {
+	Properties string `xml:",innerxml"`
 }
 
 //document = Wurzelelement
